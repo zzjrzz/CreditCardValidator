@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 public class CreditCardValidatorTests {
     @Test
     public void Valid_Credit_Card_Numbers() {
-
         assertTrue(new CreditCardValidator().isValidNumber(4111111111111111L));
         assertTrue(new CreditCardValidator().isValidNumber(4012888888881881L));
         assertTrue(new CreditCardValidator().isValidNumber(378282246310005L));
@@ -31,5 +30,15 @@ public class CreditCardValidatorTests {
     @Test
     public void Invalid_Lengths(){
         assertFalse(new CreditCardValidator().isRightLength(12345678901234L));
+    }
+
+    @Test
+    public void Valid_Luhn(){
+        assertTrue(new CreditCardValidator().isValidLuhn(4408041234567893L));
+    }
+
+    @Test
+    public void Invalid_Luhn(){
+        assertFalse(new CreditCardValidator().isValidLuhn(4417123456789112L));
     }
 }
