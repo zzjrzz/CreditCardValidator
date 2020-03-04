@@ -11,7 +11,7 @@ public class CreditCardRule implements Rule {
 
     @Override
     public boolean isValid(Long cardNumber) {
-        return new LengthRule(allowedLengths).isValid(cardNumber);
+        return new LengthRule(allowedLengths).isValid(cardNumber) && new LuhnRule().isValid(cardNumber);
     }
 
     public CreditCardType getCardType(Long cardNumber) {

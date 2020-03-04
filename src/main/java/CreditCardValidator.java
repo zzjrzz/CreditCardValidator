@@ -13,7 +13,7 @@ class CreditCardValidator {
 
     public boolean isValidNumber(Long creditCardNumber) {
         for (CreditCardRule rule : creditCardRules) {
-            if (rule.isValid(creditCardNumber) && isValidLuhn(creditCardNumber))
+            if (rule.isValid(creditCardNumber))
                 return true;
         }
         return false;
@@ -36,23 +36,5 @@ class CreditCardValidator {
         else
             cardOutputBuilder.append("(invalid)");
         return cardOutputBuilder.toString();
-    }
-
-    public boolean isValidLuhn(Long creditCardNumber) {
-        int numberOfDigits = creditCardNumber.toString().length();
-        int sumOfDoubledAndUntouched = 0;
-        boolean isSecondDigit = false;
-        for (int i = numberOfDigits - 1; i >= 0; i--) {
-            int digit = creditCardNumber.toString().charAt(i) - '0';
-
-            if (isSecondDigit == true)
-                digit = digit * 2;
-
-            sumOfDoubledAndUntouched += digit / 10;
-            sumOfDoubledAndUntouched += digit % 10;
-
-            isSecondDigit = !isSecondDigit;
-        }
-        return (sumOfDoubledAndUntouched % 10 == 0);
     }
 }

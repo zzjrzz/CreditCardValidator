@@ -20,16 +20,6 @@ public class CreditCardValidatorTests {
     }
 
     @Test
-    public void Valid_Luhn(){
-        assertTrue(new CreditCardValidator().isValidLuhn(4408041234567893L));
-    }
-
-    @Test
-    public void Invalid_Luhn(){
-        assertFalse(new CreditCardValidator().isValidLuhn(4417123456789112L));
-    }
-
-    @Test
     public void Should_Output_Valid_Cards(){
         assertEquals("VISA: 4111111111111111    (valid)", new CreditCardValidator().validateCard(4111111111111111L));
         assertEquals("VISA: 4012888888881881    (valid)", new CreditCardValidator().validateCard(4012888888881881L));
