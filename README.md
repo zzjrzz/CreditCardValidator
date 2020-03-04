@@ -7,6 +7,7 @@ This repository is a sample of a credit card validator written in Kotlin.
 - Break down the problem into checking for length, starting number and luhn algorithm.
 - Should have classes that allow extending to new rules and keep to SOLID principles. Created rule interface that is first used for the length rule
 - Used the length rule in an Amex rule.       
+- Instead of making a rule for each card, have a generic one that takes in allowed lengths, allowed start values and the enum for those combinations.
     
 ## Any issues you ran into
 - IDE messing up my gradle file :(

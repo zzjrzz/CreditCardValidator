@@ -1,28 +1,48 @@
+import java.util.LinkedList;
+import java.util.List;
+
 class CreditCardValidator {
+    List<CreditCardRule> creditCardRules = new LinkedList<>();
+
+    public CreditCardValidator() {
+        creditCardRules.add(new CreditCardRule(new String[]{"34", "37"}, new int[]{15}, CreditCardType.AMEX));
+        creditCardRules.add(new CreditCardRule(new String[]{"6011"}, new int[]{10}, CreditCardType.Discover));
+        creditCardRules.add(new CreditCardRule(new String[]{"51", "52", "53", "54", "55"}, new int[]{10}, CreditCardType.MasterCard));
+        creditCardRules.add(new CreditCardRule(new String[]{"4"}, new int[]{13, 16}, CreditCardType.VISA));
+    }
+
     public boolean isValidNumber(Long creditCardNumber) {
-        return isRightLength(creditCardNumber) && isValidLuhn(creditCardNumber);
-    }
-
-    public boolean isRightLength(Long creditCardNumber) {
-        switch (creditCardNumber.toString().length()) {
-            case 13:
+        for (CreditCardRule rule : creditCardRules) {
+            if (rule.isValid(creditCardNumber) && isValidLuhn(creditCardNumber))
                 return true;
-            case 15:
-                return true;
-            case 16:
-                return true;
-            default:
-                return false;
         }
+        return false;
     }
 
-    public boolean isValidLuhn(Long creditCardNumber)
-    {
+    public CreditCardType getCardType(Long creditCardNumber){
+        for (CreditCardRule rule : creditCardRules) {
+            if (rule.getCardType(creditCardNumber) != CreditCardType.Unknown)
+                return rule.getCardType(creditCardNumber);
+        }
+        return CreditCardType.Unknown;
+    }
+
+    public String validateCard(Long creditCardNumber){
+        StringBuilder cardOutputBuilder = new StringBuilder();
+        cardOutputBuilder.append(getCardType(creditCardNumber) + ": ");
+        cardOutputBuilder.append(creditCardNumber + "    ");
+        if(isValidNumber(creditCardNumber))
+            cardOutputBuilder.append("(valid)");
+        else
+            cardOutputBuilder.append("(invalid)");
+        return cardOutputBuilder.toString();
+    }
+
+    public boolean isValidLuhn(Long creditCardNumber) {
         int numberOfDigits = creditCardNumber.toString().length();
         int sumOfDoubledAndUntouched = 0;
         boolean isSecondDigit = false;
-        for (int i = numberOfDigits - 1; i >= 0; i--)
-        {
+        for (int i = numberOfDigits - 1; i >= 0; i--) {
             int digit = creditCardNumber.toString().charAt(i) - '0';
 
             if (isSecondDigit == true)

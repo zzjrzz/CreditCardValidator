@@ -1,7 +1,6 @@
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class CreditCardValidatorTests {
     @Test
@@ -21,18 +20,6 @@ public class CreditCardValidatorTests {
     }
 
     @Test
-    public void Valid_Lengths(){
-        assertTrue(new CreditCardValidator().isRightLength(1234567890123L));
-        assertTrue(new CreditCardValidator().isRightLength(123456789012345L));
-        assertTrue(new CreditCardValidator().isRightLength(1234567890123456L));
-    }
-
-    @Test
-    public void Invalid_Lengths(){
-        assertFalse(new CreditCardValidator().isRightLength(12345678901234L));
-    }
-
-    @Test
     public void Valid_Luhn(){
         assertTrue(new CreditCardValidator().isValidLuhn(4408041234567893L));
     }
@@ -40,5 +27,21 @@ public class CreditCardValidatorTests {
     @Test
     public void Invalid_Luhn(){
         assertFalse(new CreditCardValidator().isValidLuhn(4417123456789112L));
+    }
+
+    @Test
+    public void Should_Output_Valid_Cards(){
+        assertEquals("VISA: 4111111111111111    (valid)", new CreditCardValidator().validateCard(4111111111111111L));
+        assertEquals("VISA: 4012888888881881    (valid)", new CreditCardValidator().validateCard(4012888888881881L));
+        assertEquals("AMEX: 378282246310005    (valid)", new CreditCardValidator().validateCard(378282246310005L));
+        assertEquals("Discover: 6011111111111117    (valid)", new CreditCardValidator().validateCard(6011111111111117L));
+        assertEquals("MasterCard: 5105105105105100    (valid)", new CreditCardValidator().validateCard(5105105105105100L));
+    }
+
+    @Test
+    public void Should_Output_Invalid_Cards(){
+        assertEquals("VISA: 4111111111111    (invalid)", new CreditCardValidator().validateCard(4111111111111L));
+        assertEquals("MasterCard: 5105105105105106    (invalid)", new CreditCardValidator().validateCard(5105105105105106L));
+        assertEquals("Unknown: 9111111111111111    (invalid)", new CreditCardValidator().validateCard(9111111111111111L));
     }
 }

@@ -1,7 +1,7 @@
 public enum CreditCardType {
     AMEX,
     Discover,
-    Mastercard,
-    Visa,
+    MasterCard,
+    VISA,
     Unknown
 }
