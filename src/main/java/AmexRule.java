@@ -1,6 +1,6 @@
 public class AmexRule implements Rule {
     String[] startsWith = new String[]{"34", "37"};
-    int allowedLength = 16;
+    int[] allowedLength = new int[]{16};
 
     @Override
     public boolean isValid(Long cardNumber) {
@@ -8,10 +8,8 @@ public class AmexRule implements Rule {
     }
 
     public CreditCardType isCardType(Long cardNumber) {
-        for (String starting : startsWith) {
-            if (cardNumber.toString().startsWith(starting))
-                return CreditCardType.AMEX;
-        }
+        if (new StartWithRule(startsWith).isValid(cardNumber))
+            return CreditCardType.AMEX;
         return CreditCardType.Unknown;
     }
 }
